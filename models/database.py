@@ -22,10 +22,12 @@ class Database:
 
     #Método de entrada no contexto
     def __enter__(self):
+        print("Entrando no contexto...")
         return self
     
     #Método de saída do contexto
     def __exit__(self, exc_type, exc_value, traceback):
+        print("Saindo do contexto...")
         self.close() 
 
 # try:
