@@ -7,57 +7,59 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(120deg, #f1f1f1, #e0e0e0);
-    padding: 20px;
-    color: #333;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
-    margin: 0;
 }
 
 header {
-    margin-bottom: 30px;
-    width: 100%;
+    margin: 30px 0;
     text-align: center;
 }
 
 header h1 {
-    font-size: 2.5rem;
+    font-size: 2.3rem;
     color: #024336c2;
 }
 
 .container {
-    width: 520px;
+    width: 800px;
     background: #fff;
     padding: 30px 40px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-.formulario {
+.formulario form {
     display: flex;
-    gap: 12px;
-    margin-bottom: 30px;
-    justify-content: center;
+    flex-direction: column;
+    gap: 15px;
 }
 
-/* h1 {
-    text-align: center;
-    color: #024336;
-    margin-bottom: 25px;
-} */
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
 
-input {
-    flex: 1;
+.campo label {
+    font-weight: bold;
+}
+
+.campo input {
     padding: 10px;
-    font-size: 15px;
-    border: 1px solid #ccc;
     border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.campo small {
+    font-size: 12px;
+    color: #666;
 }
 
 button {
-    padding: 10px 15px;
+    padding: 10px;
     background-color: #035646;
     color: white;
     border: none;
@@ -70,16 +72,24 @@ button:hover {
     background-color: #08a396;
 }
 
+h2 {
+    text-align: center;
+    margin: 30px 0 20px;
+    color: #054b4b;
+}
 
 #lista-de-tarefas {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
 }
 
 .card-tarefa {
-    width: 220px;
-    min-height: 100px;
+     flex: 1 1 220px;    
+    min-width: 220px; 
+    max-width: 220px; 
+    min-height: 120px;
     background: #f9f9f9;
     border-left: 5px solid #054b4b;
     border-radius: 8px;
@@ -87,18 +97,39 @@ button:hover {
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .card-tarefa p {
-    font-size: 16px;
     font-weight: bold;
     color: #054b4b;
-    margin-bottom: 8px;
 }
 
 .card-tarefa .data {
     font-size: 14px;
     color: #555;
+}
+
+.acoes {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.acoes a {
+    text-decoration: none;
+    font-size: 14px;
+    color: #035646;
+    font-weight: bold;
+}
+
+.acoes a:hover {
+    text-decoration: underline;
+}
+
+.vazio {
+    text-align: center;
+    color: #777;
 }

@@ -2,59 +2,61 @@
 
 {% block content %}
 
-<div class="container">
-<form class="mt-3" method="POST">
-    <div class="mb-3">
-    <label for="titulo-tarefa" class="form-label">Título da tarefa</label>
-    <input type="text" class="form-control" name="titulo-tarefa" id="titulo-tarefa" aria-describedby="ajudaNomeTarefa" required>
-    <div id="ajudaNomeTarefa" class="form-text">Use o nome de uma tarefa que seja descritivo.</div>
-  </div>
+<section class="card formulario">
+    <form method="POST">
 
-    <div class="mb-3">
-    <label for="data-conclusao" class="form-label">Data de conclusão</label>
-    <input type="date" class="form-control" name="data-conclusao" id="data-conclusao">
-  </div>
-  
-  <button type="submit" class="btn btn-primary">Adicionar</button>
+        <div class="campo">
+            <label for="titulo-tarefa">Título da tarefa</label>
+            <input 
+                type="text" 
+                name="titulo-tarefa" 
+                id="titulo-tarefa"
+                value="{{ tarefa_selecionada.titulo_tarefa if tarefa_selecionada else '' }}"
+                required
+            >
+            <small>Use um nome descritivo para a tarefa.</small>
+        </div>
 
-    <!-- <input type="date" name="data-conclusao" id="data-conclusao"> -->
-    <!-- <button type="submit">Adicionar</button> -->
+        <div class="campo">
+            <label for="data-conclusao">Data de conclusão</label>
+            <input 
+                type="date" 
+                name="data-conclusao" 
+                id="data-conclusao"
+                value="{{ tarefa_selecionada.data_conclusao if tarefa_selecionada else '' }}"
+            >
+        </div>
+
+        <button type="submit">
+            {{ 'Atualizar' if tarefa_selecionada else 'Adicionar' }}
+        </button>
+
     </form>
+</section>
 
-    <h2>Lista de Tarefas</h2>
+<!-- Lista de tarefas -->
+<h2>Lista de Tarefas</h2>
 
-    {% if tarefas %}
+{% if tarefas %}
+<section id="lista-de-tarefas">
+    {% for tarefa in tarefas %}
+    <div class="card-tarefa">
 
-    <ul>
-        {% for tarefa in tarefas %}
-            <li>{{ tarefa.titulo_tarefa }} - {{ tarefa.data_conclusao }} 
-                <a href="{{ url_for ('delete', idTarefa=tarefa.id_tarefa) }}">Apagar</a>
-                <!-- Controle para editar -->
-            </li>
+        <p>{{ tarefa.titulo_tarefa }}</p>
+        <span class="data">
+            {{ tarefa.data_conclusao or 'Sem data definida' }}
+        </span>
 
-        {% endfor %}
-    </ul>
+        <div class="acoes">
+            <a href="{{ url_for('update', idTarefa=tarefa.id_tarefa) }}">Editar</a>
+            <a href="{{ url_for('delete', idTarefa=tarefa.id_tarefa) }}">Apagar</a>
+        </div>
 
+    </div>
+    {% endfor %}
+</section>
 {% else %}
-
-    <p>Nenhuma tarefa cadastrada</p>
-
+<p class="vazio">Nenhuma tarefa cadastrada</p>
 {% endif %}
 
 {% endblock %}
-
-<!-- Métodos HTTP:
-    GET -> "pega" (recupera/obtém) as informações (READ)
-    POST -> "envia" (cadastra/inclui/adiciona) as informações (CREATE)
-    UPDATE/PATCH -> "atualiza" as informações (UPDATE)
-    DELETE -> "apaga" as informações (DELETE)
-
-    CRUD -> Create, Read, Update, Delete
--->
-
-<!-- Códigos de retorno
-    2XX - Sucesso
-    3XX - Sucesso, mas redirecionando
-    4XX - Não encontrado (falha na REQUISIÇÃO)
-    5XX - Erro do servidor (falha na RESPOSTA) 
--->
