@@ -15,7 +15,7 @@
     <input type="date" class="form-control" name="data-conclusao" id="data-conclusao">
   </div>
   
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary">Adicionar</button>
 
     <!-- <input type="date" name="data-conclusao" id="data-conclusao"> -->
     <!-- <button type="submit">Adicionar</button> -->
@@ -27,7 +27,11 @@
 
     <ul>
         {% for tarefa in tarefas %}
-            <li>{{ tarefa.titulo_tarefa }} - {{ tarefa.data_conclusao }}</li>
+            <li>{{ tarefa.titulo_tarefa }} - {{ tarefa.data_conclusao }} 
+                <a href="{{ url_for ('delete', idTarefa=tarefa.id_tarefa) }}">Apagar</a>
+                <!-- Controle para editar -->
+            </li>
+
         {% endfor %}
     </ul>
 

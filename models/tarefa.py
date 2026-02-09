@@ -39,9 +39,9 @@ class Tarefa:
     @classmethod
     def obter_tarefas(cls):
         with Database('./data/tarefas.sqlite3') as db:
-            query = 'SELECT titulo_tarefa, data_conclusao FROM tarefas;'
+            query = 'SELECT titulo_tarefa, data_conclusao, id FROM tarefas;'
             resultados: list[Any] = db.buscar_tudo(query)
-            tarefas: list[Self] = [cls(titulo, data) for titulo, data in resultados]
+            tarefas: list[Self] = [cls(titulo, data, id) for titulo, data, id in resultados]
             return tarefas
         
     def excluir_tarefa(self) -> Cursor:
@@ -50,3 +50,7 @@ class Tarefa:
             params: tuple = (self.id_tarefa,)
             resultado: Cursor = db.executar(query, params)
             return resultado
+        
+    # def atualizar_tarefa():
+    #     with Database('./data/tarefas.sqlite3') as db:
+    #         query: str = UPDATE DATABASE FROM tarefas

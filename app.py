@@ -21,11 +21,15 @@ def agenda():
     return render_template('agenda.html', titulo='Agenda', tarefas=tarefas)
 
 @app.route('/delete/<int:idTarefa>')
-def delet(idTarefa):
+def delete(idTarefa):
     tarefa = Tarefa.id(idTarefa)
     tarefa.excluir_tarefa()
     # return render_template('agenda.html', titulo="Agenda", tarefas=tarefas)
     return redirect(url_for('agenda'))
+
+# @app.route('')
+# def update():
+#     pass
 
 @app.route('/ola')
 def ola_mundo():
