@@ -1,6 +1,8 @@
 from sqlite3 import Cursor
 from models.database import Database
 from typing import Any, Self, Optional
+from datetime import datetime
+
 
 class Tarefa:
     """
@@ -14,7 +16,10 @@ class Tarefa:
     # Tarefa(titulo_tarefa="Nova tarefa")
     # Tarefa(titulo_tarefa="Outra tarefa", data_conclusao="2026-02-03")
     # Tarefa(id-1)
-
+    @property
+    def concluida(self) -> bool:
+        return self.data_conclusao is not None
+    
     @classmethod
     def id(cls, id: int) -> Self:
         with Database() as db:
@@ -33,10 +38,16 @@ class Tarefa:
     # Tarefa.id(1)
 
 
-    def salvar_tarefa(self: Self) -> None:
+    def salvar_tarefa(self) -> None:
+        if self.data_conclusao == "":
+            self.data_conclusao = None
+
         with Database() as db:
-            query: str = "INSERT INTO tarefas (titulo_tarefa, data_conclusao) VALUES (?, ?);"
-            params: tuple = (self.titulo_tarefa, self.data_conclusao)
+            query = """
+            INSERT INTO tarefas (titulo_tarefa, data_conclusao)
+            VALUES (?, ?);
+            """
+            params = (self.titulo_tarefa, self.data_conclusao)
             db.executar(query, params)
 
     @classmethod
@@ -55,8 +66,47 @@ class Tarefa:
             return resultado
         
     def atualizar_tarefa(self) -> Cursor:
+        if self.data_conclusao == "":
+            self.data_conclusao = None
+
         with Database() as db:
-            query: str = 'UPDATE tarefas SET titulo_tarefa = ?, data_conclusao = ? WHERE id = ?;'
-            params: tuple = (self.titulo_tarefa, self.data_conclusao, self.id_tarefa)
-            resultado: Cursor = db.executar(query, params)
-            return resultado
+            query: str = """
+            UPDATE tarefas
+            SET titulo_tarefa = ?, data_conclusao = ?
+            WHERE id = ?;
+            """
+            params: tuple = (
+                self.titulo_tarefa,
+                self.data_conclusao,
+                self.id_tarefa
+            )
+
+        resultado: Cursor = db.executar(query, params)
+
+        return resultado
+        
+    def alterar_status(self) -> Cursor:
+
+        with Database() as db:
+            query_verificar = "SELECT data_conclusao FROM tarefas WHERE id = ?;"
+            resultado = db.buscar_tudo(query_verificar, (self.id_tarefa,))
+
+            data = resultado[0][0]
+            if data is None:
+                nova_data = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                query = """
+                UPDATE tarefas
+                SET data_conclusao = ?
+                WHERE id = ?;
+                """
+                params = (nova_data, self.id_tarefa)
+            else:
+                query = """
+                UPDATE tarefas
+                SET data_conclusao = NULL
+                WHERE id = ?;
+                """
+                params = (self.id_tarefa,)
+            resultado_cursor = db.executar(query, params)
+
+            return resultado_cursor

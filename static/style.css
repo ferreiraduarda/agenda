@@ -133,3 +133,12 @@ h2 {
     text-align: center;
     color: #777;
 }
+
+.titulo-concluido {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.card-tarefa.concluida {
+    opacity: 0.7;
+}

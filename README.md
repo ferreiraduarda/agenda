@@ -34,7 +34,7 @@ git clone <url_seu_repositorio>
     .\.venv\Scripts\Activate.ps1
     ~~~
 
-6. Instale todas as dependeências constantes no arquivo `requirements.txt`.
+6. Instale todas as dependências constantes no arquivo `requirements.txt`.
 
 ~~~python
 pip install -r requirements.txt

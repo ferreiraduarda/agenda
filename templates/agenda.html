@@ -39,21 +39,50 @@
 
 {% if tarefas %}
 <section id="lista-de-tarefas">
-    {% for tarefa in tarefas %}
-    <div class="card-tarefa">
 
-        <p>{{ tarefa.titulo_tarefa }}</p>
-        <span class="data">
-            {{ tarefa.data_conclusao or 'Sem data definida' }}
-        </span>
+    {% if tarefas %}
 
-        <div class="acoes">
-            <a href="{{ url_for('update', idTarefa=tarefa.id_tarefa) }}">Editar</a>
-            <a href="{{ url_for('delete', idTarefa=tarefa.id_tarefa) }}">Apagar</a>
+        {% for tarefa in tarefas %}
+
+        <div class="card-tarefa {% if tarefa.data_conclusao %}concluida{% endif %}">
+
+            <p class="{% if tarefa.data_conclusao %}titulo-concluido{% endif %}">
+                {{ tarefa.titulo_tarefa }}
+            </p>
+
+            <span class="data">
+        {% if tarefa.data_conclusao %}
+            Concluída em: {{ tarefa.data_conclusao[:16] }}
+        {% else %}
+            Pendente
+        {% endif %}
+            </span>
+            <div class="acoes">
+
+                <a href="{{ url_for('update', idTarefa=tarefa.id_tarefa) }}">Editar</a>
+
+                <a href="{{ url_for('delete', idTarefa=tarefa.id_tarefa) }}">Apagar</a>
+
+                <form action="{{ url_for('alterar_status', id=tarefa.id_tarefa) }}" method="POST" style="display:inline;">
+                    <a href="#" onclick="this.closest('form').submit(); return false;">
+                        {% if tarefa.data_conclusao %}
+                            Reabrir
+                        {% else %}
+                            Concluir
+                        {% endif %}
+                    </a>
+                </form>
+
+            </div>
+
         </div>
 
-    </div>
-    {% endfor %}
+        {% endfor %}
+
+    {% else %}
+        <p>Nenhuma tarefa cadastrada.</p>
+    {% endif %}
+
 </section>
 {% else %}
 <p class="vazio">Nenhuma tarefa cadastrada</p>
