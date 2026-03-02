@@ -57,6 +57,10 @@ class Tarefa:
             return tarefas
         
     def excluir_tarefa(self) -> Cursor:
+        if self.concluida:
+            raise ValueError(
+            "Não é possível excluir uma tarefa concluída. Reabra primeiro."
+            )
         with Database() as db:
             query: str = 'DELETE FROM tarefas WHERE id = ?;'
             params: tuple = (self.id_tarefa,)

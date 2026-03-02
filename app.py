@@ -13,8 +13,7 @@ def agenda():
 
     if request.method == "POST":
         titulo_tarefa = request.form["titulo-tarefa"]
-        data_conclusao = request.form["data-conclusao"]
-        tarefa = Tarefa(titulo_tarefa, data_conclusao)
+        tarefa = Tarefa(titulo_tarefa)
         tarefa.salvar_tarefa()
 
     tarefas = Tarefa.obter_tarefas()
